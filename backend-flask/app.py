@@ -3,6 +3,8 @@ import os
 from time import strftime
 
 import watchtower
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
 from opentelemetry import trace
@@ -25,7 +27,6 @@ from services.search_activities import *
 from services.show_activity import *
 from services.user_activities import *
 
-
 # Configuring Logger to Use CloudWatch
 # LOGGER = logging.getLogger(__name__)
 # LOGGER.setLevel(logging.DEBUG)
@@ -33,6 +34,10 @@ from services.user_activities import *
 # cw_handler = watchtower.CloudWatchLogHandler(log_group='cruddur')
 # LOGGER.addHandler(console_handler)
 # LOGGER.addHandler(cw_handler)
+
+# X-Ray
+xray_url = os.getenv("AWS_XRAY_URL")
+xray_recorder.configure(service='backend-flask', dynamic_naming=xray_url)
 
 # Honeycomb: Initialize tracing and an exporter that can send data to Honeycomb
 provider = TracerProvider()
@@ -46,6 +51,9 @@ trace.set_tracer_provider(provider)
 tracer = trace.get_tracer(__name__)
 
 app = Flask(__name__)
+
+# Xray
+XRayMiddleware(app, xray_recorder)
 
 # Honeycomb: FlaskInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
