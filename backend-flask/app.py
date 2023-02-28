@@ -100,8 +100,12 @@ def after_request(response):
 # Rollbar test
 @app.route('/rollbar/test')
 def rollbar_test():
-    rollbar.report_message('Hello World!', 'warning')
-    return "Hello World!"
+    rollbar.report_message('Rollbar Critical!', 'critical')
+    rollbar.report_message('Rollbar Debug!', 'debug')
+    rollbar.report_message('Rollbar Error!', 'error')
+    rollbar.report_message('Rollbar Info!', 'info')
+    rollbar.report_message('Rollbar Warning!', 'warning')
+    return "Rollbar test!"
 
 @app.route("/api/message_groups", methods=['GET'])
 def data_message_groups():
