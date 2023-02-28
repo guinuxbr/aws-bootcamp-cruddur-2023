@@ -25,3 +25,10 @@ tasks:
     init: |
       cd frontend-react-js
       npm install
+      cd ..
+  
+  - name: Install Python dependencies
+    init: |
+      cd backend-flask
+      pip install -r requirements.txt
+      cd ..https://rollbar.com/guinuxbr-github/all/items
