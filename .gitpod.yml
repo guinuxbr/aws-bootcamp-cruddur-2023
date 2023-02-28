@@ -31,4 +31,4 @@ tasks:
     init: |
       cd backend-flask
       pip install -r requirements.txt
-      cd ..https://rollbar.com/guinuxbr-github/all/items
+      cd ..
