@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta, timezone
-from opentelemetry import traceimport
 
 
 class HomeActivities:
